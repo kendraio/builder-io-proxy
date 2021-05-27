@@ -3,8 +3,13 @@ const _ = require('lodash');
 const apiKey = process.env.BUILDER_API_KEY;
 
 const template = ({ title, html }) => `<html lang="en">
-<head><title>${title}</title></head>
-<body>${html}</body>
+<head>
+    <title>${title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    ${html}
+</body>
 </html>
 `;
 
