@@ -14,6 +14,9 @@ const template = ({ title, html }) => `<html lang="en">
 <head>
     <title>${title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" 
+          href="https://user.kendra.io/sites/default/files/kendra-favicon_2.ico"
+          type="image/vnd.microsoft.icon" />
 </head>
 <body>
     ${html}
