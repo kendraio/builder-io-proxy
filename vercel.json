@@ -1,4 +1,7 @@
 {
+  "redirects": [
+    { "source": "/user", "destination": "https://user.kendra.io/user" }
+  ],
   "rewrites": [
     { "source": "/", "destination": "/api/proxy" },
     { "source": "/:path*", "destination": "/api/proxy" }
