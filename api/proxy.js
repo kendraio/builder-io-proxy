@@ -44,27 +44,32 @@ module.exports = async (req, res) => {
     const target = isOldSite ? `https://user.kendra.io` : `http://kendraio-builder-website.s3-website.eu-west-2.amazonaws.com`;
 
     // Returns proxied content, unless S3 returns a 403 that should be a 404: 
-    proxy.on('proxyRes', function (proxyRes, _req, res) {
-        var body = [];
-        proxyRes.on('data', function (chunk) {
-            body.push(chunk)
-        });
 
-        proxyRes.on('end', function () {
-            if (proxyRes.statusCode === 403 && isOldSite === false) {
+    proxy.on('proxyRes', function (proxyRes, _req, res) {
+        if (proxyRes.statusCode === 403 &&
+            isOldSite === false &&
+            res.writable &&
+            res.writableEnded == false) {
+
+            try {
                 res.writeHead(404, {
                     'Content-Type': 'text/html'
                 });
-                res.end(error404Content);
-            } else {
-                res.end(Buffer.concat(body).toString());
+                res.write(error404Content);
+
+                res.end();
+            } catch (error) {
+                console.log('Failed to write and end 404')
             }
-        });
+
+        }
 
     });
+
 
     proxy.web(req, res, {
         target: target,
-        selfHandleResponse: true
+        selfHandleResponse: false
     });
+
 };
